@@ -7,17 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mars</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
 </head>
 
+<!--Main banner of the page, including the button to update data-->
 <div class="jumbotron text-center">
   <h1>A Trip to the Red Planet!</h1><br>
   <a class="btn btn-primary btn-lg" href="/scrape" role="button">Update News!</a>
 </div>
 
+<!--Main body of information for the page-->
 <body>
   <main>
     <div class="container">      
+      <!--This row includes the latest mars news, from https://mars.nasa.gov/news/-->
       <div class="row">
         <div class="col-md-6">  
           <div class="mars_news">
@@ -27,17 +29,19 @@
           </div>
         </div>
       </div>
-
+      <!--This row includes the featured Mars IOTD-->
       <div class="row">
         <div class="col-md-8">
           <h2><u>Featured Mars Image</u></h2>
           <img src="{{ mars.mars_img }}" alt="Mars Image">
         </div>
+        <!--Current (most recently reported) Mars weather-->
         <div class="col-md-4">
           <div class="row">
             <h3>Current Mars weather:</h3>
             <p>{{mars.mars_weather}}</p>  
           </div>
+          <!--A table of basic Mars facts-->
           <div class="row">
             <h2>Mars facts:</h2>
             {{mars.mars_table|safe}}            
@@ -45,6 +49,7 @@
         </div>       
       </div>
 
+      <!--4 separate images of the hemispheres of Mars-->
       <br><br><center><h2><u>Mars Hemispheres:</u></h2></center>
       <div class="row">
         <div class="col-md-6">

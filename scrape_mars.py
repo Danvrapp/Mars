@@ -1,3 +1,4 @@
+#import dependencies
 from splinter import Browser
 from bs4 import BeautifulSoup
 import time
@@ -6,30 +7,29 @@ import requests
 import pymongo
 
 def init_browser():
-    # @NOTE: Replace the path with your actual path to the chromedriver
+    #This file path could potentially need changed
     executable_path = {"executable_path": "/Users/Dan/Desktop/CWRU/Web/Mongo/splinter/chromedriver.exe"}
     return Browser("chrome", **executable_path, headless=True)
 
 def scrape_info():
     browser = init_browser()
 
-    # URL of page to be scraped
+# Scrape most recent Mars information
     url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
 
     browser.visit(url)
     # Scrape page into Soup
     html = browser.html
-    # Create BeautifulSoup object; parse with 'lxml'
-    soup = BeautifulSoup(html, 'html.parser')
-    
+    # Create BeautifulSoup object, parse with 'html'
+    soup = BeautifulSoup(html, 'html.parser')    
     time.sleep(1)
 
-    # Retrieve the parent divs for all articles
+    # Parse the soup to find text of the article
     result = soup.find('li', class_="slide")
     mars_title=result.h3.text
     mars_blurb=result.a.text
 
-    # URL of page to scrape image
+# Scrape IOTD for Mars
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
 
     # Retrieve page 
@@ -37,21 +37,21 @@ def scrape_info():
     html = browser.html
     # Create BeautifulSoup object; parse with 'html'
     soup = BeautifulSoup(html, 'html.parser')
-    
+    #find and create the URL for the image
     results = soup.find('img', class_="thumb")
     img_results = 'https://www.jpl.nasa.gov' + results['src']
 
-    # Twitter scrape for daily weather
+# Twitter scrape for daily weather
     url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(url)
     html = browser.html
-    # Create BeautifulSoup object; parse with 'lxml'
+    # Create BeautifulSoup object; parse with 'html'
     soup = BeautifulSoup(html, 'html.parser')
 
     result = soup.find('p', class_="TweetTextSize")
     mars_weather = result.text
     
-    # Get Mars facts
+# Get Mars facts and create a table
     url = 'https://space-facts.com/mars/'
     tables = pd.read_html(url)
     Mars_df = tables[0]
@@ -59,8 +59,8 @@ def scrape_info():
     Mars_df.set_index('Attribute')
     Mars_html_table = Mars_df.to_html()
     Mars_df.to_html('Mars_table.html')
-    #print (Mars_html_table)
-    
+
+#Build a list of dictionaries of hemisphere images    
     hemisphere_image_urls = [
     {"title": "Valles Marineris Hemisphere", "img_url": "https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/valles_marineris_enhanced.tif/full.jpg"},
     {"title": "Cerberus Hemisphere", "img_url": "http://astropedia.astrogeology.usgs.gov/download/Mars/Viking/cerberus_enhanced.tif/full.jpg"},
@@ -77,7 +77,7 @@ def scrape_info():
     hemi_4_img = hemisphere_image_urls[3]["img_url"]
     hemi_4_name = hemisphere_image_urls[3]["title"]
 
-    # Store data in a dictionary
+# Store data in a dictionary to be returned
     mars_data = {
         "mars_news":mars_title,
         "mars_blurb":mars_blurb,
@@ -94,8 +94,8 @@ def scrape_info():
         "hemi_4_title":hemi_4_name
     }
 
-    # Close the browser after scraping
+# Close the browser after scraping
     browser.quit()
 
-    # Return results
+# Return results
     return mars_data
