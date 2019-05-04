@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mars</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<div class="jumbotron text-center">
+  <h1>A Trip to the Red Planet!</h1><br>
+  <a class="btn btn-primary btn-lg" href="/scrape" role="button">Update News!</a>
+</div>
+
+<body>
+  <main>
+    <div class="container">      
+      <div class="row">
+        <div class="col-md-6">  
+          <div class="mars_news">
+            <h2><u>The latest Mars news:</u></h2>
+            <p><h3><b>{{mars.mars_news}}</b></h3></p>
+            <p>{{mars.mars_blurb}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <h2><u>Featured Mars Image</u></h2>
+          <img src="{{ mars.mars_img }}" alt="Mars Image">
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <h3>Current Mars weather:</h3>
+            <p>{{mars.mars_weather}}</p>  
+          </div>
+          <div class="row">
+            <h2>Mars facts:</h2>
+            {{mars.mars_table|safe}}            
+          </div>
+        </div>       
+      </div>
+
+      <br><br><center><h2><u>Mars Hemispheres:</u></h2></center>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="hemis">
+            <center><img src="{{mars.hemi_1_img}}" alt="Mars hemi" width=450px height=450px></center>
+            <center><h3>{{mars.hemi_1_title}}</h3></center>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <center><img src="{{mars.hemi_2_img}}" alt="Mars hemi" width=450px height=450px></center>
+          <center><h3>{{mars.hemi_2_title}}</h3></center>
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+          <div class="col-md-6">
+            <center><img src="{{mars.hemi_3_img}}" alt="Mars hemi" width=450px height=450px></center>
+            <center><h3>{{mars.hemi_3_title}}</h3></center>
+          </div>
+          <div class="col-md-6">
+            <center><img src="{{mars.hemi_4_img}}" alt="Mars hemi" width=450px height=450px></center>
+            <center><h3>{{mars.hemi_4_title}}</h3></center>
+          </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
